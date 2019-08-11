@@ -7,14 +7,14 @@ if (typeof AFRAME === 'undefined') {
   throw new Error('Component attempted to register before AFRAME was available.');
 }
 
-require('./src/physics-collider.js');
-require('./src/physics-collision-filter.js');
-require('./src/physics-sleepy.js');
-require('./src/body-merger.js');
-
+//require('./src/physics-collider.js');
+//require('./src/physics-collision-filter.js');
+//require('./src/physics-sleepy.js');
+//require('./src/body-merger.js');
+/*
 },{"./src/body-merger.js":2,"./src/physics-collider.js":3,"./src/physics-collision-filter.js":4,"./src/physics-sleepy.js":5}],2:[function(require,module,exports){
 'use strict';
-
+*/
 /* global AFRAME, THREE, CANNON */
 AFRAME.registerComponent('body-merger', {
   schema: { default: 'static-body' },
