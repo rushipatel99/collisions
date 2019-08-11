@@ -72,9 +72,13 @@ AFRAME.registerComponent('physics-collider', {
     this.currentCollisions = new Set();
     this.newCollisions = [];
     this.clearedCollisions = [];
+    this.newList = [];
+    this.clearedList = [];
     this.collisionEventDetails = {
       els: this.newCollisions,
-      clearedEls: this.clearedCollisions
+      clearedEls: this.clearedCollisions,
+      item1: this.newList,
+      item2: this.clearedList
     };
   },
   update: function () {
@@ -96,18 +100,23 @@ AFRAME.registerComponent('physics-collider', {
       const collisions = this.collisions;
       const newCollisions = this.newCollisions;
       const clearedCollisions = this.clearedCollisions;
+      const newList = this.newList;
+      const clearedList = this.clearedList;
       let i = 0;
       let upperId = (worldCollisions[i] & uppperMask) >> 16;
       let target;
+      let targetID;
       newCollisions.length = clearedCollisions.length = 0;
       currentCollisions.clear();
       while (i < worldCollisions.length && upperId < thisBodyId) {
         if (worldBodyMap[upperId]) {
           target = worldBodyMap[upperId].el;
+          targetID = worldBodyMap[upperId].el.getAttribute('id');
           if ((worldCollisions[i] & lowerMask) === thisBodyId) {
             currentCollisions.add(target);
             if (!collisions.has(target)) {
               newCollisions.push(target);
+              newList.push(targetID);
             }
           }
         }
@@ -116,9 +125,11 @@ AFRAME.registerComponent('physics-collider', {
       while (i < worldCollisions.length && upperId === thisBodyId) {
         if (worldBodyMap[worldCollisions[i] & lowerMask]) {
           target = worldBodyMap[worldCollisions[i] & lowerMask].el;
+          targetID = target.getAttribute('id');
           currentCollisions.add(target);
           if (!collisions.has(target)) {
             newCollisions.push(target);
+            newList.push(targetID);
           }
         }
         upperId = (worldCollisions[++i] & uppperMask) >> 16;
@@ -127,6 +138,7 @@ AFRAME.registerComponent('physics-collider', {
       for (let col of collisions) {
         if (!currentCollisions.has(col)) {
           clearedCollisions.push(col);
+          clearedList.push(col.getAttribute('id'));
           collisions.delete(col);
         }
       }
