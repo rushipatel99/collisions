@@ -145,7 +145,10 @@ AFRAME.registerComponent('physics-collider', {
       for (let col of newCollisions) {
         collisions.add(col);
       }
-      if (newCollisions.length || clearedCollisions.length) {
+      
+      // || clearedCollisions.length
+      
+      if (newCollisions.length) {
         this.el.emit('collisions', this.collisionEventDetails);
       }
     };
